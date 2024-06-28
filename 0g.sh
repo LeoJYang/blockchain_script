@@ -18,17 +18,10 @@ function install_storage_node() {
 
     cd run
 
-    read -p "Private key (without 0x): " minerkey
-
-    sed -i "s/miner_key = \"\"/miner_key = \"$minerkey\"/" config.toml
     sed -i 's|blockchain_rpc_endpoint = "https://rpc-testnet.0g.ai"|blockchain_rpc_endpoint = "https://storage.0gnode.xyz"|g' config.toml
     sed -i 's/log_sync_start_block_number = 80981/log_sync_start_block_number = 802/' config.toml
     sed -i 's/log_contract_address = "0x22C1CaF8cbb671F220789184fda68BfD7eaA2eE1"/log_contract_address = "0x8873cc79c5b3b5666535C825205C9a128B1D75F1"/' config.toml
     sed -i 's/mine_contract_address = "0x8B9221eE2287aFBb34A7a1Ef72eB00fdD853FFC2"/mine_contract_address = "0x85F6722319538A805ED5733c5F4882d96F1C7384"/' config.toml
-
-    # Run in background
-    cd run
-    tmux new-session -d -s zgs_node_session '../target/release/zgs_node --config config.toml'
 }
 
 
