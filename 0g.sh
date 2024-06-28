@@ -16,8 +16,6 @@ function install_storage_node() {
 
     cargo build --release
 
-    cd run
-
     read -p "Private key (without 0x): " minerkey
 
     sed -i "s/miner_key = \"\"/miner_key = \"$minerkey\"/" config.toml
