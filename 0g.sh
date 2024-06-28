@@ -5,8 +5,8 @@ function install_storage_node() {
     sudo apt-get update
     sudo apt-get install clang cmake build-essential
 
-    check_rust_installed()
-    check_go_installed()
+    check_rust_installed
+    check_go_installed
 
     # Clone repo and build
     git clone -b v0.3.2 https://github.com/0glabs/0g-storage-node.git
@@ -56,5 +56,5 @@ check_rust_installed() {
     fi
 }
 
-install_storage_node()
+install_storage_node
 
