@@ -1,1 +1,1 @@
-# blockchain_intern
+# Some scripts to run blockchain projects
