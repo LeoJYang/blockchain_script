@@ -1,1 +1,3 @@
-# Some scripts to run blockchain projects
+# Blockchain scripts
+
+Some scripts to deploy and run blockchain projects.
