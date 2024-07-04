@@ -5,9 +5,6 @@ function install_storage_node() {
     sudo apt-get update
     sudo apt-get install clang cmake build-essential
 
-    check_rust_installed
-    check_go_installed
-
     # Clone repo and build
     git clone -b v0.3.2 https://github.com/0glabs/0g-storage-node.git
 
@@ -22,31 +19,23 @@ function install_storage_node() {
     sed -i 's/log_sync_start_block_number = 80981/log_sync_start_block_number = 802/' config.toml
     sed -i 's/log_contract_address = "0x22C1CaF8cbb671F220789184fda68BfD7eaA2eE1"/log_contract_address = "0x8873cc79c5b3b5666535C825205C9a128B1D75F1"/' config.toml
     sed -i 's/mine_contract_address = "0x8B9221eE2287aFBb34A7a1Ef72eB00fdD853FFC2"/mine_contract_address = "0x85F6722319538A805ED5733c5F4882d96F1C7384"/' config.toml
-}
+    sed -i '
+    s|^\s*#\?\s*network_dir\s*=.*|network_dir = "network"|
+    s|^\s*#\?\s*network_enr_tcp_port\s*=.*|network_enr_tcp_port = 1234|
+    s|^\s*#\?\s*network_enr_udp_port\s*=.*|network_enr_udp_port = 1234|
+    s|^\s*#\s*watch_loop_wait_time_ms\s*=.*|watch_loop_wait_time_ms = 1000|
+    s|^\s*#\?\s*network_libp2p_port\s*=.*|network_libp2p_port = 1234|
+    s|^\s*#\?\s*network_discovery_port\s*=.*|network_discovery_port = 1234|
+    s|^\s*#\s*rpc_listen_address\s*=.*|rpc_listen_address = "0.0.0.0:5678"|
+    s|^\s*#\s*rpc_listen_address_admin\s*=.*|rpc_listen_address_admin = "0.0.0.0:5679"|
+    s|^\s*#\?\s*rpc_enabled\s*=.*|rpc_enabled = true|
+    s|^\s*#\?\s*db_dir\s*=.*|db_dir = "db"|
+    s|^\s*#\?\s*log_config_file\s*=.*|log_config_file = "log_config"|
+    s|^\s*#\?\s*log_directory\s*=.*|log_directory = "log"|
+    s|^\s*#\?\s*network_boot_nodes\s*=.*|network_boot_nodes = \["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS"\]|
+    ' config.toml
 
-
-check_go_installed() {
-    if command -v go >/dev/null 2>&1; then
-        echo "Go is installed."
-        go version
-    else
-        echo "Installing Go..."
-        sudo rm -rf /usr/local/go
-        curl -L https://go.dev/dl/go1.22.0.linux-amd64.tar.gz | sudo tar -xzf - -C /usr/local
-        echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
-        export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
-        source $HOME/.bash_profile
-    fi
-}
-
-check_rust_installed() {
-    if command -v rustc >/dev/null 2>&1; then
-        echo "Rust is installed."
-        rustc --version
-    else
-        echo "Installing Rust..."
-        curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-    fi
+    sed -i "s|^\s*#\?\s*network_enr_address\s*=.*|network_enr_address = \"$(wget -qO- eth0.me)\" |" config.toml
 }
 
 install_storage_node
