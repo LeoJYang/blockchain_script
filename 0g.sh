@@ -6,9 +6,11 @@ function install_storage_node() {
     sudo apt-get install clang cmake build-essential
 
     # Clone repo and build
-    git clone -b v0.3.2 https://github.com/0glabs/0g-storage-node.git
+    git clone https://github.com/0glabs/0g-storage-node.git
 
     cd 0g-storage-node
+    git fetch
+    git checkout tags/v0.3.3 --force
     git submodule update --init
 
     cargo build --release
@@ -32,7 +34,7 @@ function install_storage_node() {
     s|^\s*#\?\s*db_dir\s*=.*|db_dir = "db"|
     s|^\s*#\?\s*log_config_file\s*=.*|log_config_file = "log_config"|
     s|^\s*#\?\s*log_directory\s*=.*|log_directory = "log"|
-    s|^\s*#\?\s*network_boot_nodes\s*=.*|network_boot_nodes = \["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS"\]|
+    s|^\s*#\?\s*network_boot_nodes\s*=.*|network_boot_nodes = \["/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps","/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS","/ip4/18.167.69.68/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX"]|
     ' config.toml
 
     sed -i "s|^\s*#\?\s*network_enr_address\s*=.*|network_enr_address = \"$(wget -qO- eth0.me)\" |" config.toml
