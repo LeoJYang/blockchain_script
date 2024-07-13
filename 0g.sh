@@ -16,12 +16,12 @@ function install_storage_node() {
     cargo build --release
 
     cd run
-
-    sed -i 's|blockchain_rpc_endpoint = "https://rpc-testnet.0g.ai"|blockchain_rpc_endpoint = "https://storage.0gnode.xyz"|g' config.toml
-    sed -i 's/log_sync_start_block_number = 80981/log_sync_start_block_number = 802/' config.toml
-    sed -i 's/log_contract_address = "0x22C1CaF8cbb671F220789184fda68BfD7eaA2eE1"/log_contract_address = "0x8873cc79c5b3b5666535C825205C9a128B1D75F1"/' config.toml
-    sed -i 's/mine_contract_address = "0x8B9221eE2287aFBb34A7a1Ef72eB00fdD853FFC2"/mine_contract_address = "0x85F6722319538A805ED5733c5F4882d96F1C7384"/' config.toml
+    
     sed -i '
+    s|^\s*#\?\s*log_contract_address\s*=.*|log_contract_address = "0x8873cc79c5b3b5666535C825205C9a128B1D75F1"|
+    s|^\s*#\?\s*mine_contract_address\s*=.*|mine_contract_address = "0x85F6722319538A805ED5733c5F4882d96F1C7384"|
+    s|^\s*#\?\s*blockchain_rpc_endpoint\s*=.*|blockchain_rpc_endpoint = "https://storage.0gnode.xyz"|
+    s|^\s*#\?\s*log_sync_start_block_number\s*=.*|log_sync_start_block_number = 802|
     s|^\s*#\?\s*network_dir\s*=.*|network_dir = "network"|
     s|^\s*#\?\s*network_enr_tcp_port\s*=.*|network_enr_tcp_port = 1234|
     s|^\s*#\?\s*network_enr_udp_port\s*=.*|network_enr_udp_port = 1234|
