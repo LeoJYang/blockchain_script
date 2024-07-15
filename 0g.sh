@@ -6,6 +6,8 @@ function install_storage_node() {
     echo 'export PRIVATE_KEY="'$PRIVATE_KEY'"' >> $HOME/.bash_profile
     read -p "Enter BLOCKCHAIN_RPC_ENDPOINT: " BLOCKCHAIN_RPC_ENDPOINT
     echo 'export BLOCKCHAIN_RPC_ENDPOINT="'$BLOCKCHAIN_RPC_ENDPOINT'"' >> $HOME/.bash_profile
+    MYIP=$(wget -qO- eth0.me)
+    echo 'export MYIP="'$MYIP'"' >> $HOME/.bash_profile
     source ~/.bash_profile
 
     sudo apt update && sudo apt upgrade -y
@@ -19,7 +21,7 @@ function install_storage_node() {
     cargo build --release
     
     sed -i '
-    s|^\s*#\?\s*network_enr_address\s*=.*|network_enr_address = \"$(wget -qO- eth0.me)\" |
+    s|# network_enr_address = ""|network_enr_address = "'$MYIP'"|
     s|# rpc_listen_address = ".*"|rpc_listen_address = "0.0.0.0:5678"|
     s|# rpc_listen_address_admin = ".*"|rpc_listen_address_admin = "0.0.0.0:5679"|
     s|# network_boot_nodes = \[\]|network_boot_nodes = \[\"/ip4/54.219.26.22/udp/1234/p2p/16Uiu2HAmTVDGNhkHD98zDnJxQWu3i1FL1aFYeh9wiQTNu4pDCgps\",\"/ip4/52.52.127.117/udp/1234/p2p/16Uiu2HAkzRjxK2gorngB1Xq84qDrT4hSVznYDHj6BkbaE4SGx9oS\",\"/ip4/18.167.69.68/udp/1234/p2p/16Uiu2HAm2k6ua2mGgvZ8rTMV8GhpW71aVzkQWy7D37TTDuLCpgmX\"\]|
