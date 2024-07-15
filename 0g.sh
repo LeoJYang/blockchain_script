@@ -31,7 +31,7 @@ s|# db_dir = "db"|db_dir = "db"|
 s|# rpc_enabled = true|rpc_enabled = true|
 s|# network_dir = "network"|network_dir = "network"|
 s|# miner_key = ""|miner_key = "'"$PRIVATE_KEY"'"|
-' $HOME/0g-storage-node/run/config
+' $HOME/0g-storage-node/run/config.toml
 
 sed -i '
 s|debug,hyper=info,h2=info|info,hyper=warn,h2=warn|
