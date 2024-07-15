@@ -36,28 +36,6 @@ function install_storage_node() {
     sed -i '
     s|debug,hyper=info,h2=info|info,hyper=warn,h2=warn|
     ' $HOME/0g-storage-node/run/log_config
-
-    sudo tee /etc/systemd/system/zgs.service > /dev/null <<EOF
-    [Unit]
-    Description=ZGS Node
-    After=network.target
-    
-    [Service]
-    User=root
-    WorkingDirectory=$HOME/0g-storage-node/run
-    ExecStart=$HOME/0g-storage-node/target/release/zgs_node --config $HOME/0g-storage-node/run/config.toml --miner-key $PRIVATE_KEY --blockchain-rpc-endpoint $BLOCKCHAIN_RPC_ENDPOINT
-    Restart=on-failure
-    RestartSec=10
-    LimitNOFILE=65535
-    
-    [Install]
-    WantedBy=multi-user.target
-    EOF
-
-    sudo systemctl daemon-reload && \
-    sudo systemctl enable zgs && \
-    sudo systemctl start zgs
-
 }
 
 install_storage_node
