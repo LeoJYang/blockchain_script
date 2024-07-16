@@ -17,7 +17,7 @@ s|# log_sync_start_block_number = 0|log_sync_start_block_number = 802|
 s|# db_dir = "db"|db_dir = "db"|
 s|# rpc_enabled = true|rpc_enabled = true|
 s|# network_dir = "network"|network_dir = "network"|
-s|# network_enr_address = ""|network_enr_address = "https://0g-new-rpc.dongqn.com"|
+s|# blockchain_rpc_endpoint = ".*"|blockchain_rpc_endpoint = "https://0g-new-rpc.dongqn.com"|
 ' $HOME/0g-storage-node/run/config.toml
 
 sed -i "s|^\s*#\?\s*network_enr_address\s*=.*|network_enr_address = \"$(wget -qO- eth0.me)\" |" $HOME/0g-storage-node/run/config.toml
